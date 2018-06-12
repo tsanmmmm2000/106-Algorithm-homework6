@@ -17,11 +17,11 @@ Output:
 
 If option is 1:
 
-1.    The selected edges which forms the spanning tree. Order is important!
+1. The selected edges which forms the spanning tree. Order is important!
 
-2.    The sum of all edges weight in minimum spanning tree.
+2. The sum of all edges weight in minimum spanning tree.
 
-3.    Note that the edge should put smaller node first, e.g., if the edge (4, 2) is selected, it should be output by 2 4, not 4 2.
+3. Note that the edge should put smaller node first, e.g., if the edge (4, 2) is selected, it should be output by 2 4, not 4 2.
 
 If option is 2:
 
@@ -49,6 +49,7 @@ Input:
 
 3 2 4
 
+&nbsp;
 
 6 12 2
 
