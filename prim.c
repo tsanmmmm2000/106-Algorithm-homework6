@@ -38,20 +38,6 @@ int find_min(int a, int b) {
     return (a < b) ? a : b;
 }
 
-int edge_compare(const void *a, const void *b) {
-    struct edge *edge_a = (struct edge *)a;
-    struct edge *edge_b = (struct edge *)b;
-    if (edge_a->vertex_one > edge_b->vertex_one 
-        || (edge_a->vertex_one == edge_b->vertex_one && edge_a->vertex_two > edge_b->vertex_two)) {
-        return 1;
-    } else if (edge_a->vertex_one < edge_b->vertex_one 
-        || (edge_a->vertex_one == edge_b->vertex_one && edge_a->vertex_two < edge_b->vertex_two)) {
-        return -1;
-    } else {
-        return 0;
-    }
-}
-
 void init_set() {
     for (int i = 0; i < MAX_VERTICES_NUMBER; i++) {
         for (int j = 0; j < MAX_VERTICES_NUMBER; j++) {
@@ -112,10 +98,7 @@ struct mst_result prim(int vertex_num) {
                 sb.key_set[j] = sb.edge_set[vertex][j];
             }
         }
-    }
-
-    qsort(result.edge_set, result.edge_size, sizeof(struct edge), edge_compare);
-    
+    }    
     return result;
 }
 
