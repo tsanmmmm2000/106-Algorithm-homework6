@@ -9,6 +9,7 @@
 #define START 0
 #define DEFAULT_VALUE -1
 
+
 struct set_blob {
     int key_set[MAX_VERTICES_NUMBER];
     int parent_set[MAX_VERTICES_NUMBER];
@@ -37,6 +38,7 @@ int find_max(int a, int b) {
 int find_min(int a, int b) {
     return (a < b) ? a : b;
 }
+
 
 int edge_compare(const void *a, const void *b) {
     struct edge *edge_a = (struct edge *)a;
@@ -77,7 +79,7 @@ void add_edge(int vertex_one, int vertex_two, int weight) {
 
 int extract_min(int vertex_num) {
     int min = INT_MAX;
-    int vertex = -1;
+    int vertex = DEFAULT_VALUE;
     for (int i = 0; i < vertex_num; i++) {       
         if (sb.visited_set[i] == FALSE && sb.key_set[i] < min) {
             min = sb.key_set[i];
@@ -88,9 +90,24 @@ int extract_min(int vertex_num) {
 }
 
 struct mst_result prim(int vertex_num) {
+    
+    struct mst_result result;
+    result.edge_size = 0;
+    result.sum = 0;
+
     for (int i = 0; i < vertex_num; i++) {
         int vertex = extract_min(vertex_num);
         sb.visited_set[vertex] = TRUE;
+
+        if (vertex != START) {
+            int index = result.edge_size;
+            int parent = sb.parent_set[vertex];
+            int weight = sb.edge_set[vertex][parent];      
+            result.edge_set[index].vertex_one = find_min(vertex, parent);
+            result.edge_set[index].vertex_two = find_max(vertex, parent);
+            result.edge_size += 1;
+            result.sum += weight;            
+        }
         for (int j = 0; j < vertex_num; j++) {
             if (sb.visited_set[j] == FALSE && sb.edge_set[vertex][j] != DEFAULT_VALUE && sb.edge_set[vertex][j] < sb.key_set[j]) {
                 sb.parent_set[j] = vertex;
@@ -99,21 +116,8 @@ struct mst_result prim(int vertex_num) {
         }
     }
 
-    struct mst_result result;
-    result.edge_size = 0;
-    result.sum = 0;
+    qsort(result.edge_set, result.edge_size, sizeof(struct edge), edge_compare);
 
-    for (int i = 0; i < vertex_num; i++) {     
-        if (sb.visited_set[i] == TRUE && sb.parent_set[i] != DEFAULT_VALUE) {
-            int index = result.edge_size;
-            int weight = sb.edge_set[i][sb.parent_set[i]];      
-            result.edge_set[index].vertex_one = find_min(i, sb.parent_set[i]);
-            result.edge_set[index].vertex_two = find_max(i, sb.parent_set[i]);
-            result.edge_size += 1;
-            result.sum += weight;
-        }
-    }
-    qsort(result.edge_set, result.edge_size, sizeof(struct edge), edge_compare);    
     return result;
 }
 
@@ -143,6 +147,7 @@ int main() {
         result[i] = prim(vertex_num);
         result[i].option_num = option_num;
     }
+
     for (int i = 0; i < input_num; i++) {
         if (result[i].option_num == 1) {
             for (int j = 0; j < result[i].edge_size; j++) {
