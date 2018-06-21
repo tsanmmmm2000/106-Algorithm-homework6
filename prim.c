@@ -9,7 +9,6 @@
 #define START 0
 #define DEFAULT_VALUE -1
 
-
 struct set_blob {
     int key_set[MAX_VERTICES_NUMBER];
     int parent_set[MAX_VERTICES_NUMBER];
@@ -38,7 +37,6 @@ int find_max(int a, int b) {
 int find_min(int a, int b) {
     return (a < b) ? a : b;
 }
-
 
 int edge_compare(const void *a, const void *b) {
     struct edge *edge_a = (struct edge *)a;
@@ -90,7 +88,7 @@ int extract_min(int vertex_num) {
 }
 
 struct mst_result prim(int vertex_num) {
-    
+
     struct mst_result result;
     result.edge_size = 0;
     result.sum = 0;
@@ -117,7 +115,7 @@ struct mst_result prim(int vertex_num) {
     }
 
     qsort(result.edge_set, result.edge_size, sizeof(struct edge), edge_compare);
-
+    
     return result;
 }
 
@@ -143,7 +141,6 @@ int main() {
             scanf("%d %d %d", &vertex_one, &vertex_two, &weight);
             add_edge(vertex_one, vertex_two, weight);
         }
-
         result[i] = prim(vertex_num);
         result[i].option_num = option_num;
     }
