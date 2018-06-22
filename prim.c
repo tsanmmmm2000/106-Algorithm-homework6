@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <limits.h>
 
 #define MAX_VERTICES_NUMBER 1001
